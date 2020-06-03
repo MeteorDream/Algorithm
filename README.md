@@ -7,6 +7,6 @@
 
 <br>目录及分组 </br>
 <br>一、数组 </br>
-<br> 1、Two Sum 两数之和 (Easy)</br>
-<br> </br>
+<br> 1、[Array]Two Sum 两数之和 (Easy)</br>
+<br> 2、[LinkList]Add Two number 两数相加(Medium)</br>
 <br> </br>
