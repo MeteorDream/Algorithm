@@ -9,4 +9,24 @@
 <br>一、数组 </br>
 <br> 1、[Array]Two Sum 两数之和 (Easy)</br>
 <br> 2、[LinkList]Add Two number 两数相加(Medium)</br>
+<br> 3、[String]Longest Substring without Repeating Characters无重复字符的最长子串(Medium)</br>
+<br> 4、寻找两个有序数组的中位数</br>
+<br> 5、最长回文子串</br>
+<br> 6、Z字形变换</br>
+<br> 7、整数反转</br>
+<br> 8、字符串转换整数 (atoi)</br>
+<br> 9、回文数</br>
+<br> 10、正则表达式匹配</br>
+<br> 11、盛最多水的容器</br>
+<br> </br>
+<br> </br>
+<br> </br>
+<br> </br>
+<br> </br>
+<br> </br>
+<br> </br>
+<br> </br>
+<br> </br>
+<br> </br>
+<br> </br>
 <br> </br>
