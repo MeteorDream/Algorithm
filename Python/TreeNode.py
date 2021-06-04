@@ -1,20 +1,18 @@
 # -*- coding: utf-8 -*-
-# File    : 897. 递增顺序搜索树.py
+# File    : TreeNode.py
 # Author  : MeteorDream
-# Time    : 2021/04/25 12:41:59
+# Time    : 2021/05/27 18:55:11
 # language: Python
 # Software: Visual Studio Code
 
-import time
 from typing import List
-from TreeNode import *
 
 
-class TreeNode(object):
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
+class TreeNode:
+    def __init__(self, x, left=None, right=None):
+        self.val = x
         self.left = left
-        self.right = right
+        self.right = left
 
 
 class Tree(object):
@@ -24,7 +22,7 @@ class Tree(object):
         self.filecount = 1
         if nums:
             self.SetTree(nums)
-        self.cur = self.root
+        self.PrintPoint = self.root
 
     def SetTree(self, nums: List[int]):
         # 使用层序遍历的部分插入结点
@@ -54,68 +52,71 @@ class Tree(object):
         else:
             return 0
 
-
-class Solution:
-    # def increasingBST(self, root: TreeNode) -> TreeNode:
-    #     s = list()
-    #     while root:
-    #         s.append(root)
-    #         root = root.left
-    #     newroot = TreeNode()
-    #     last = newroot
-    #     while s:
-    #         cur = s.pop()
-    #         last.left = None
-    #         last.right = cur
-    #         last = cur
-    #         if cur.right:
-    #             cur = cur.right
-    #             while cur:
-    #                 s.append(cur)
-    #                 cur = cur.left
-    #     return newroot.right
-
-    def increasingBST(self, root: TreeNode) -> TreeNode:
-        # 利用线索在O(1)空间中序遍历二叉树
-        self.cur = root
-        dummy = TreeNode(0)
-        Treeptr = dummy
-        while self.cur:
-            Treeptr.left = None
-            Treeptr.right = self.nextnode()
-            self.cur = self.cur.right
-            Treeptr = Treeptr.right
-        Treeptr.left = None
-        Treeptr.right = None
-        return dummy.right
-
     def nextnode(self) -> int:
         # 扁平化二叉搜索树迭代器，中序输出树节点
-        while self.cur:
+        while self.PrintPoint:
             # 存在左子树，则左子树的最右节点存放指向该节点的线索(指针)
-            if self.cur.left:
-                mostright = self.cur.left
+            if self.PrintPoint.left:
+                mostright = self.PrintPoint.left
                 # 查找左子树最右节点
-                while mostright.right and not mostright.right == self.cur:
+                while mostright.right and not mostright.right == self.PrintPoint:
                     mostright = mostright.right
                 # 若查找结果不为空(回到根节点)，说明左子树最右节点已经存放了线索并且左子树已经遍历过，抹去该线索
                 if mostright.right:
                     mostright.right = None
                 # 若结果为空，存入线索，根节点左移(root = root->left)，重复查找
                 else:
-                    mostright.right = self.cur
-                    self.cur = self.cur.left
+                    mostright.right = self.PrintPoint
+                    self.PrintPoint = self.PrintPoint.left
                     continue
             # 根节点不存在左子树或左子树已经遍历过，输出该节点，再将根节点右移(root = root->right)
-            return self.cur
+            ans = self.PrintPoint.val
+            self.PrintPoint = self.PrintPoint.right
+            return ans
 
+    def PrintMidTree(self):
+        # 利用线索在O(1)空间中序遍历二叉树(不改动树本身)
+        print("中序遍历: ", end="")
+        self.PrintPoint = self.root
+        while self.PrintPoint:
+            print(self.nextnode(), end=" ")
+        print()
 
-if __name__ == "__main__":
-    start = time.perf_counter()
+    def PrintPreTree(self):
+        # 递归前序遍历二叉树
+        def PreVisit(root: TreeNode):
+            if root:
+                print(root.val, end=" ")
+                PreVisit(root.left)
+                PreVisit(root.right)
 
-    s = Solution()
-    T = Tree([2, 1, 4, None, None, 3])
-    ans = s.increasingBST(T.root)
+        print("前序遍历: ", end="")
+        PreVisit(self.root)
+        print()
 
-    end = time.perf_counter()
-    print("Running Time: {:,.2f}μs".format((end - start) * 10 ** 6))
+    def PrintPostTree(self):
+        # 递归后序遍历二叉树
+        def PostVisit(root: TreeNode):
+            if root:
+                PostVisit(root.left)
+                PostVisit(root.right)
+                print(root.val, end=" ")
+
+        print("后序遍历: ", end="")
+        PostVisit(self.root)
+        print()
+
+    def PrintLevelTree(self):
+        # 层序遍历二叉树
+        Queue = list()
+        print("层序遍历: ", end="")
+        if self.root:
+            Queue.append(self.root)
+        while Queue:
+            cur = Queue.pop(0)
+            print(cur.val, end=" ")
+            if cur.left:
+                Queue.append(cur.left)
+            if cur.right:
+                Queue.append(cur.right)
+        print()

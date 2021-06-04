@@ -6,13 +6,7 @@
 # Software: Visual Studio Code
 
 import time
-import math
-import sys
-import os
-import re
 from typing import List
-from functools import cache  # 装饰器，用于缓存递归函数中间值
-from TreeNodeAndLinkNode import *  # 二叉树结点和链表结点
 
 # [1744. 你能在你最喜欢的那天吃到你最喜欢的糖果吗？](https://leetcode-cn.com/problems/can-you-eat-your-favorite-candy-on-your-favorite-day/)
 

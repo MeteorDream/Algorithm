@@ -5,7 +5,7 @@
 # language: Python
 # Software: Visual Studio Code
 
-import time, math, sys, os
+import time
 from typing import List
 import random
 
@@ -16,6 +16,7 @@ import random
 # 随机 决定是要「交换两个子字符串」还是要「保持这两个子字符串的顺序不变」。即，在执行这一步骤之后，s 可能是 s = x + y 或者 s = y + x 。
 # 在 x 和 y 这两个子字符串上继续从步骤 1 开始递归执行此算法。
 # 给你两个 长度相等 的字符串 s1 和 s2，判断 s2 是否是 s1 的扰乱字符串。如果是，返回 true ；否则，返回 false 。
+
 
 class Solution:
     def Scramble(self, s: str) -> str:
@@ -28,6 +29,7 @@ class Solution:
         else:
             return self.Scramble(s[:ind]) + self.Scramble(s[ind:])
 
+
 if __name__ == "__main__":
     start = time.perf_counter()
 
@@ -37,4 +39,3 @@ if __name__ == "__main__":
 
     end = time.perf_counter()
     print("Running Time: {:,.2f}μs".format((end - start) * 10 ** 6))
-

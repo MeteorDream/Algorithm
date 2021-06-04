@@ -6,13 +6,8 @@
 # Software: Visual Studio Code
 
 import time
-import math
-import sys
-import os
 from typing import List
-
-from functools import cache  # 装饰器，用于缓存递归函数中间值
-from TreeNodeAndLinkNode import *  # 二叉树结点和链表结点
+from TreeNode import *  # 二叉树结点和链表结点
 
 # [105. 从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
 

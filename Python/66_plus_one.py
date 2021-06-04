@@ -6,9 +6,6 @@
 # Software: Visual Studio Code
 
 import time
-import math
-import sys
-import os
 from typing import List
 
 """

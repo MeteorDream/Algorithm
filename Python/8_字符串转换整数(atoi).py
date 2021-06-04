@@ -6,12 +6,7 @@
 # Software: Visual Studio Code
 
 import time
-import math
-import sys
-import os
 from typing import List
-from functools import cache  # 装饰器，用于缓存递归函数中间值
-from TreeNodeAndLinkNode import *  # 二叉树结点和链表结点
 
 # [8. 字符串转换整数 (atoi)](https://leetcode-cn.com/problems/string-to-integer-atoi/)
 

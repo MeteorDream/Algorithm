@@ -5,8 +5,9 @@
 # language: Python
 # Software: Visual Studio Code
 
-import time, math, sys, os
+import time
 from typing import List
+
 
 class Solution:
     def numSquares(self, n: int) -> int:
@@ -17,7 +18,7 @@ class Solution:
             nums.append(i * i)
             i += 1
         print(nums)
-        
+
         size = len(nums)
         dp = [0, 1]
         for i in range(2, n + 1):
@@ -30,6 +31,7 @@ class Solution:
             dp.append(tmp)
         print(dp)
         return dp[-1]
+
 
 if __name__ == "__main__":
     start = time.perf_counter()
