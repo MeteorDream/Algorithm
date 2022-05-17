@@ -4,7 +4,11 @@
 
 主要平台：[LeetCode](https://leetcode.cn/problemset/all/)，[洛谷](https://www.luogu.com.cn/)
 
-欢迎参观我的博客: [小鲸鱼的的梦境](https://meteordream.github.io/), 会同步更新题解的哒 :heart::heart::heart:
+欢迎参观我的博客: [小鲸鱼的梦境](https://meteordream.github.io/), 会同步更新题解的哒 :heart::heart::heart:
+
+[小鲸鱼的梦境](https://meteordream.github.io/) 中关于 LeetCode 题解部分: <https://meteordream.github.io/categories/LeetCode/>, 如果想按算法类型查找可以在 [标签云](https://meteordream.github.io/tags/) 中查看或者直接搜索哦~
+
+推荐一个包罗万象的算法干货库：<https://oiwiki.com/>.
 
 最新说明：会逐步把 LeetCode 发布过的题解更新过来哒, wiki 部分慢慢施工, 公主号看心情吧 🤣
 
@@ -13,7 +17,7 @@
 - 2021.08.20 最近去洛谷刷题了，力扣只是做做每日一题，把前段时间做的题目代码push上来先，还有洛谷的一个刷题记录，额外放外面了，随缘更新，下面的目录没更新，等什么时候无聊了写个爬虫再把链接一口气全部补齐吧嘻嘻~
 - 2021.06.15 把之前写的几篇题解放上来啦~顺带更新了一些题目
 - 2021.06.05 项目停更了很久，但其实一直有在刷题，只是因为没有坚持写题解的缘故没有继续更新，最近整理了本地的代码，将文件名统一，整理后放在此处
-- 2022.05.17 闲置已久的博客在 Github 的 Action 辅助下重新恢复啦，在也不用担心更新麻烦了，欢迎参观: [小鲸鱼的的梦境](https://meteordream.github.io/)。会在博客更新题解，也会在该仓库同步更新。
+- 2022.05.17 闲置已久的博客在 Github 的 Action 辅助下重新恢复啦，在也不用担心更新麻烦了，欢迎参观: [小鲸鱼的梦境](https://meteordream.github.io/)。会在博客更新题解，也会在该仓库同步更新。
 - 2022.05.17 删掉了所有具体题目的代码，只保留一些方便调试的工具，具体原因可以参考[碎碎念](#碎碎念)
 
 ---
