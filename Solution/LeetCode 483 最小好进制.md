@@ -1,0 +1,283 @@
+---
+title: LeetCode 483 最小好进制
+date: 2021-06-18 16:54:52
+categories:
+- [LeetCode]
+tags: [LeetCode,二分查找]
+---
+
+## 题目
+
+[483. 最小好进制]([题目链接](https://leetcode-cn.com/problems/smallest-good-base/))
+
+难度: 困难
+
+<!--more-->
+
+对于给定的整数 n, 如果n的k（k>=2）进制数的所有数位全为1，则称 k（k>=2）是 n 的一个**好进制**。
+
+以字符串的形式给出 n, 以字符串的形式返回 n 的最小好进制。
+
+示例 1：
+
+> **输入：**"13"
+> **输出：**"3"
+> **解释：**13 的 3 进制是 111。
+
+示例 2：
+
+> **输入：**"4681"
+> **输出：**"8"
+> **解释：**4681 的 8 进制是 11111。
+
+示例 3：
+
+> **输入：**"1000000000000000000"
+> **输出：**"999999999999999999"
+> **解释：**1000000000000000000 的 999999999999999999 进制是 11。
+
+提示：
+
+- n的取值范围是 $[3, 10^18]$。
+- 输入总是有效且没有前导 0。
+
+## 解析
+
+由题意得：对于 **好进制** k 满足下面的关系：
+
+$$
+k^0 + k^1 + k^2 + \dots \dots + k^{s - 1} = n
+$$
+
+式子左端是等比数列，求和方法是两边乘以公比再两式相减
+
+$$
+k^0 + k^1 + k^2 + \dots \dots + k^{s - 1} = n \\
+k^1 + k^2 + \dots \dots + k^{s - 1} + k^s = k n
+$$
+
+最后得到：
+
+$$
+k^s - 1 = (k - 1) \times n
+$$
+
+于是问题就转化为求满足上式的最小的k值
+
+由于式子中还有另外一个变量s，所以可以枚举其中一个变量再计算另外一个变量。其中 k 表示 k 进制，而 s 表示 k进制下 值 $11 \dots 11$ 的长度
+
+考察两个变量的取值范围，其中
+
+- $2 <= k < n - 1 < 10^{18}$
+- $2 <= s < 63$
+
+因为 $2^{63} = 9.22 \times 10^{18}$ ，所以 k 转化为二进制表示是不会超过63位的，而进制越大，对应值越小，所以二进制表示的值的长度是最大的
+
+为了使得 k 尽量小，就要使 s 尽量大，所以我们由大到小枚举 s，再计算对应 k 的值
+
+## 二分查找
+
+当确定了 s 以后，就能计算 k 的值了，但是方程
+
+$$
+k^s - 1 = (k - 1) \times n
+$$
+
+似乎很难解，不过没关系，由于 k 是整数，即使我们没法直接通过数学计算获得方程的解，但却能采取 **“猜数字”** 的方法来猜出 k 的值。
+
+**猜数字** 可以通过枚举所有取值的来猜出正确答案，但是这里k的取值范围太大了，时间不允许我们一个一个的枚举，又考虑到对于一个固定的数 $(11 \dots 11)_k$, 进制 k 越大，其真实值越大(转换为十进制就很明显了)
+
+$$
+(11\dots 11)_k = (k^0 + k^1 + k^2 + \dots \dots + k^{s - 1})_{10}
+$$
+
+所以可以采用二分查找的方法加快 **“猜数字”**
+
+另外需要注意的是由于数字非常接近 long 类型的最大值，所以除了python 这种不担心溢出的语言都要小心处理溢出(可以测试下"2251799813685247", "16035713712910627"这两个用例，答案是"2", "502")
+
+```python
+# Code language: Python
+class Solution:
+    # 二分
+    def smallestGoodBase(self, n: str) -> str:
+        num = int(n)
+        # 枚举 k进制 中 1 的个数，最多为 二进制 时的位数
+        for i in range(num.bit_length(), 2, -1):
+            # k^0 + k^1 + …… + k^(i-1) = n -- 通过二分法计算 k
+            # kn - n = k^i - 1
+            left, right = 2, num - 1
+            while left <= right:
+                mid = (left + right) // 2
+                s = mid * num - num - pow(mid, i) + 1
+                if s == 0:
+                    return str(mid)
+                elif s > 0:
+                    left = mid + 1
+                else:
+                    right = mid - 1
+        return str(num - 1)
+```
+
+```java
+/* Code language: Java */
+class Solution {
+    /* 二分 */
+    public String smallestGoodBase(String n) {
+        long num = Long.parseLong(n);
+        // 枚举 k进制 中 1 的个数，最多为 二进制 时的位数
+        for (int i = (int) (Math.log(num) / Math.log(2) + 1); i > 2; --i) {
+            // k^0 + k^1 + …… + k^(i-1) = n -- 通过二分法计算 k
+            long left = 2, right = num - 1;
+            while (left <= right) {
+                long mid = (left + right) / 2;
+                long s = 0, MaxVal = num / mid + 1;
+                for (int j = 0; j < i; ++j)
+                    if (s < MaxVal)
+                        s = s * mid + 1;
+                    else {
+                        s = num + 1;
+                        break;
+                    }
+                if (s == num)
+                    return Long.toString(mid);
+                else if (s > num)
+                    right = mid - 1;
+                else
+                    left = mid + 1;
+            }
+        }
+        return Long.toString(num - 1);
+    }
+}
+```
+
+```cpp
+/* Code language: C++ */
+class Solution {
+public:
+    string smallestGoodBase(string n) {
+        long num = stol(n);
+        // 枚举 k进制 中 1 的个数，最多为 二进制 时的位数
+        for (int i = (int)(log(num) / log(2) + 1); i > 2; --i) {
+            // k^0 + k^1 + …… + k^(i-1) = n -- 通过二分法计算 k
+            long left = 2, right = num - 1;
+            while (left <= right) {
+                long mid = left + (right - left) / 2;
+                // MaxVal 用于反向溢出判断，一旦溢出，说明比num大，设为num+1即可
+                long s = 0, MaxVal = num / mid + 1;
+                for (int j = 0; j < i; ++j) {
+                    if (s < MaxVal)
+                        s = s * mid + 1;
+                    else {
+                        s = num + 1;
+                        break;
+                    }
+                }
+                if (s == num)
+                    return to_string(mid);
+                else if (s > num)
+                    right = mid - 1;
+                else
+                    left = mid + 1;
+            }
+        }
+        return to_string(num - 1);
+    }
+};
+```
+
+- 时间复杂度(python)：$O(log^2n)$, 外层循环取决于n的二进制数长度 $logn$, 内层循环取决于二分搜索空间，复杂度是 $O(logn)$, python最内层循环使用的pow() 函数一般认为复杂度是 $O(1)$
+- 时间复杂度(Java,C++)：$O(log^3n)$, 外层循环取决于n的二进制数长度 $logn$, 内层循环取决于二分搜索空间，复杂度是 $O(logn)$, 相较于python语言Java和C++为了避免溢出采用了秦九韶算法，第三层循环时间复杂度也是 $O(logn)$
+- 空间复杂度：$O(1)$
+
+---
+
+## 数学方法
+
+实际上，上面提到的方程虽然难解，但我们利用二项式定理可以巧妙的得到方程的解，回到最初的定义
+
+$$
+k^0 + k^1 + k^2 + \dots \dots + k^{s} = n
+$$
+
+对上式进行放缩：
+
+$$
+k^{s} < n < \sum_{i=0}^s C^{i}_{n}k^i = (k + 1)^s
+$$
+
+即：
+
+$$
+k < n^{\frac{1}{s}} < k + 1
+$$
+
+由于我们所求的k是一个整数，所以只需对 $n^{\frac{1}{s}}$ 向下取整就能得到 k 的值，但方程本身不一定有整数解，即我们取整后的结果可能是近似值，所以我们还需将k代回公式检验(这里python可以直接套求和公式，java等可以用[秦九韶算法](https://baike.baidu.com/item/%E7%A7%A6%E4%B9%9D%E9%9F%B6%E7%AE%97%E6%B3%95)加快计算同时避免溢出)
+
+补充说明为什么 $n^{\frac{1}{s}}$ 向下取整就能得到 k 的值：可以理解为 $n^{\frac{1}{s}}$ 是一个比 k 大，但是和 k 的差值不超过 1 的数，如果 k 是正整数，那么 $n^{\frac{1}{s}}$ 向下取整就能得到 k，但对于方程 $n = k^0 + …… + k^s$, 枚举 s 时 k 不一定有正整数解，所以需要校验 $n^{\frac{1}{s}}$ 向下取整得到的是不是 k，方法就是带回原方程检验
+
+```python
+# Code language: Python
+class Solution:
+    # 数学
+    def smallestGoodBase(self, n: str) -> str:
+        num = int(n)
+        # 枚举 k进制 中 1 的个数，最多为 二进制 时的位数
+        for i in range(num.bit_length(), 2, -1):
+            # k^0 + k^1 + …… + k^(i-1) = n -- 解方程计算 k
+            # k < n^(1/(i - 1)) < k +1
+            k = int(pow(num, 1 / (i - 1)))
+            # 检查 k 进制数 (11…11) (i个1)是否是n
+            if num == (pow(k, i) - 1) // (k - 1):
+                return str(k)
+        return str(num - 1)
+```
+
+```java
+/* Code language: Java */
+class Solution {
+    /* 数学方法 */
+    public String smallestGoodBase(String n) {
+        long num = Long.parseLong(n);
+        // 枚举 k进制 中 1 的个数，最多为 二进制 时的位数
+        for (int i = (int) (Math.log(num) / Math.log(2) + 1); i > 2; --i) {
+            // k^0 + k^1 + …… + k^(i-1) = n -- 解方程计算 k
+            // k < n^(1/(i - 1)) < k +1
+            long k = (long) Math.pow(num, 1.0 / (i - 1));
+            // 检查 k 进制数 (11…11) (i个1)是否是n
+            long res = 0;
+            for (int j = 0; j < i; ++j)
+                res = res * k + 1;
+            if (res == num)
+                return Long.toString(k);
+        }
+        return Long.toString(num - 1);
+    }
+}
+```
+
+```cpp
+/* Code language: C++ */
+class Solution {
+public:
+    string smallestGoodBase(string n) {
+        long num = stol(n);
+        // 枚举 k进制 中 1 的个数，最多为 二进制 时的位数
+        for (int i = (int)(log(num) / log(2) + 1); i > 2; --i) {
+            // k^0 + k^1 + …… + k^(i-1) = n -- 数学方法解方程计算 k
+            long k = powl(num, 1.0 / (i - 1));
+            // 检查 k 进制数 (11…11) (i个1)是否是n
+            long res = 0;
+            for (int j = 0; j < i; ++j)
+                res = res * k + 1;
+            if (res == num)
+                return to_string(k);
+        }
+        return to_string(num - 1);
+    }
+};
+```
+
+- 时间复杂度(python)：$O(logn)$
+- 时间复杂度(Java,C++)：$O(log^2n)$, 比python多了一层循环的复杂度
+- 空间复杂度：$O(1)$

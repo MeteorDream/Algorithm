@@ -1,5 +1,5 @@
 ---
-title: LeetCode 66. 加一
+title: LeetCode 66 加一
 date: 2021-05-03 16:59:08
 categories:
 - [LeetCode]
@@ -11,6 +11,8 @@ tags: [LeetCode,数组]
 [66. 加一](https://leetcode-cn.com/problems/plus-one)
 
 难度: 简单
+
+<!--more-->
 
 给定一个由 **整数** 组成的 **非空** 数组所表示的非负整数，在该数的基础上加一。
 

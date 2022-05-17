@@ -1,0 +1,133 @@
+---
+title: LeetCode 953 验证外星语词典
+date: 2022-05-17 10:23:41
+categories:
+- [LeetCode]
+tags: [LeetCode,模拟]
+---
+
+
+## 题目
+
+[953. 验证外星语词典]([题目链接](https://leetcode.cn/problems/verifying-an-alien-dictionary/))
+
+难度: 简单
+
+<!--more-->
+
+某种外星语也使用英文小写字母，但可能顺序 `order` 不同。字母表的顺序（`order`）是一些小写字母的排列。
+
+给定一组用外星语书写的单词 `words`，以及其字母表的顺序 `order`，只有当给定的单词在这种外星语中按字典序排列时，返回 `true`；否则，返回 `false`。
+
+
+示例 1：
+
+> 输入：words = ["hello","leetcode"], order = "hlabcdefgijkmnopqrstuvwxyz"
+> 输出：true
+> 解释：在该语言的字母表中，'h' 位于 'l' 之前，所以单词序列是按字典序排列的。
+
+示例 2：
+
+> 输入：words = ["word","world","row"], order = "worldabcefghijkmnpqstuvxyz"
+> 输出：false
+> 解释：在该语言的字母表中，'d' 位于 'l' 之后，那么 words[0] > words[1]，因此单词序列不是按字典序排列的。
+
+示例 3：
+
+> 输入：words = ["apple","app"], order = "abcdefghijklmnopqrstuvwxyz"
+> 输出：false
+> 解释：当前三个字符 "app" 匹配时，第二个字符串相对短一些，然后根据词典编纂规则 "apple" > "app"，因为 'l' > '∅'，其中 '∅' 是空白字符，定义为比任何其他字符都小（[更多信息](https://baike.baidu.com/item/%E5%AD%97%E5%85%B8%E5%BA%8F)）。
+
+提示：
+
+- 1 <= words.length <= 100
+- 1 <= words[i].length <= 20
+- order.length == 26
+- 在 `words[i]` 和 `order` 中的所有字符都是英文小写字母。
+
+## 题解
+
+[【验证外星语词典】简单模拟](https://leetcode.cn/problems/verifying-an-alien-dictionary/solution/yan-zheng-wai-xing-yu-ci-dian-by-meteord-xewi/)
+
+## 模拟
+
+遍历整个 words 逐对验证两两是否满足给出的“字典序”即可
+
+```Python
+# Python
+class Solution:
+    def isAlienSorted(self, words: List[str], order: str) -> bool:
+        ord_map = {j: i for i, j in enumerate(order)}
+        pre = ""
+        for word in words:
+            # 比较 pre 和 word
+            for i, j in zip(pre, word):
+                if i != j:
+                    if ord_map[i] > ord_map[j]:
+                        return False
+                    else:
+                        break
+            else:
+                if len(pre) > len(word):
+                    return False
+            pre = word
+        return True
+```
+
+```Cpp
+// C++
+class Solution {
+public:
+    bool isAlienSorted(vector<string>& words, string order) {
+        unordered_map<char, int> ord_map;
+        for (int i = 0; i < 26; ++i) ord_map[order[i]] = i;
+        string pre = "";
+        for (string& cur: words) {
+            bool tag = true;
+            int n = min(cur.size(), pre.size());
+            for (int i = 0; i < n; ++i) {
+                if (cur[i] != pre[i]) {
+                    if (ord_map[cur[i]] < ord_map[pre[i]]) return false;
+                    else {
+                        tag = false;
+                        break;
+                    }
+                }
+            }
+            if (tag && cur.size() < pre.size()) return false;
+            pre = cur;
+        }
+        return true;
+    }
+};
+```
+
+```Java
+// Java
+class Solution {
+    public boolean isAlienSorted(String[] words, String order) {
+        Map<Character, Integer> ord_map = new HashMap<>();
+        for (int i = 0; i < 26; ++i) ord_map.put(order.charAt(i), i);
+        String pre = "";
+        for (String cur: words) {
+            boolean tag = true;
+            int n = Math.min(cur.length(), pre.length());
+            for (int i = 0; i < n; ++i) {
+                if (cur.charAt(i) != pre.charAt(i)) {
+                    if (ord_map.get(cur.charAt(i)) < ord_map.get(pre.charAt(i))) return false;
+                    else {
+                        tag = false;
+                        break;
+                    }
+                }
+            }
+            if (tag && cur.length() < pre.length()) return false;
+            pre = cur;
+        }
+        return true;
+    }
+}
+```
+
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(26)$，用哈希表存了 order 到下标数值的映射

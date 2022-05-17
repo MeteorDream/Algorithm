@@ -1,5 +1,5 @@
 ---
-title: LeetCode 1744.你能在你最喜欢的那天吃到你最喜欢的糖果吗
+title: LeetCode 1744 你能在你最喜欢的那天吃到你最喜欢的糖果吗
 date: 2021-06-01 17:07:31
 categories:
 - [LeetCode]
@@ -11,6 +11,8 @@ tags: [LeetCode,前缀和]
 [1744. 你能在你最喜欢的那天吃到你最喜欢的糖果吗？](https://leetcode-cn.com/problems/can-you-eat-your-favorite-candy-on-your-favorite-day/)
 
 难度: 中等
+
+<!--more-->
 
 给你一个下标从 **0** 开始的正整数数组 $candiesCount$ ，其中 $candiesCount[i]$ 表示你拥有的第 $i$ 类糖果的数目。同时给你一个二维数组 $queries$ ，其中 $queries[i] = [favoriteTypei, favoriteDayi, dailyCapi]$ 。
 

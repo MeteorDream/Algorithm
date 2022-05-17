@@ -1,5 +1,5 @@
 ---
-title: LeetCode-852-山脉数组的峰顶索引
+title: LeetCode 852 山脉数组的峰顶索引
 date: 2021-06-15 14:32:28
 categories:
 - [LeetCode]
@@ -11,6 +11,8 @@ tags: [LeetCode,二分查找]
 [852. 山脉数组的峰顶索引]([题目链接](https://leetcode-cn.com/problems/peak-index-in-a-mountain-array/))
 
 难度: 简单
+
+<!--more-->
 
 符合下列属性的数组 arr 称为 **山脉数组** ：
 
