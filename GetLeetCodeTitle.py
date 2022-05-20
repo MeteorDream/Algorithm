@@ -132,6 +132,7 @@ def get_yaml_title(id, title):
         "---",
         "title: {}".format(f'『LeetCode』 {id} {title}'),
         "date: {}".format(time.strftime("%Y-%m-%d %H:%M:%S")),
+        "updated: {}".format(time.strftime("%Y-%m-%d %H:%M:%S")),
         "categories:",
         "- [LeetCode]",
         "tags: [LeetCode]", 
