@@ -65,7 +65,6 @@ def convert(src):
         "</?ul>",
         "</?ol>",
         "\t",
-        "</sup>",
     ]
     Replace = [
         ["</?code>", "`"],
@@ -81,6 +80,10 @@ def convert(src):
         ["&lt;", '<'],
         ["&gt;", '>'],
         [' \n', ''],
+        ["<sup>", '^{'],
+        ["</sup>", '}'],
+        ["<sub>", '^{'],
+        ["</sub>", '}'],
         ['\n\n\n', '\n\n'],
         ['\n\n\n', '\n\n'],
     ]
@@ -195,7 +198,7 @@ def get_LeetCode_question(slug: str, en: bool):
     info = content['content'] if en else content['translatedContent']
     ques_info = convert(info)
     similarQuestions = conv_sq(content['similarQuestions'], en)
-    md_title = f'{id} {title}({difficulty}).md'
+    md_title = f'{id}{title}({difficulty}).md'
     with open(md_title, 'wt', encoding='utf-8') as f:
         f.write(get_yaml_title(id, title))
         f.write("## 题目\n\n")
