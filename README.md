@@ -1,6 +1,6 @@
 # Algorithm
 
-个人的算法的刷题记录, 主要使用 markdown 文档进行记录
+个人的算法的刷题记录, 主要使用 markdown 文档进行记录(建议到博客中观看哦，因为是按照博客要求书写的)
 
 主要平台：[LeetCode](https://leetcode.cn/problemset/all/)，[洛谷](https://www.luogu.com.cn/)
 
@@ -11,6 +11,8 @@
 推荐一个包罗万象的算法干货库：<https://oiwiki.com/>.
 
 最新说明：会逐步把 LeetCode 发布过的题解更新过来哒, wiki 部分慢慢施工, 公主号看心情吧 🤣
+
+---
 
 ## 最近更新
 
