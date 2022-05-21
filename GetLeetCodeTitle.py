@@ -128,7 +128,7 @@ def conv_sq(sq, en=False):
 def get_yaml_title(id, title):
     ans = [
         "---",
-        "title: {}".format(f'『LeetCode』 {id} {title}'),
+        "title: {}".format(f'『LeetCode』{id} {title}'),
         "date: {}".format(time.strftime("%Y-%m-%d %H:%M:%S")),
         "updated: {}".format(time.strftime("%Y-%m-%d %H:%M:%S")),
         "categories:",
@@ -197,7 +197,7 @@ def get_LeetCode_question(slug: str, en: bool):
     info = content['content'] if en else content['translatedContent']
     ques_info = convert(info)
     similarQuestions = conv_sq(content['similarQuestions'], en)
-    md_title = f'{id}{title}({difficulty}).md'
+    md_title = f'{id} {title}({difficulty}).md'
     with open(md_title, 'wt', encoding='utf-8') as f:
         f.write(get_yaml_title(id, title))
         f.write("## 题目\n\n")
@@ -223,15 +223,19 @@ if __name__ == '__main__':
     parser.add_argument('-g', '--get', action='store_true', help='Add the argument mean get LeetCode list.')
     parser.add_argument('-e', '--en', action='store_true', help="Add the argument mean get information from english web.")
     parser.add_argument('-t', type=int, default=[], nargs='+', help="The number of questions you want to get (Can more than one, split by space).")
+    parser.add_argument('-s', '--slug', type=str, default=[], nargs='+', help="Slug for question you want to get.")
     args = parser.parse_args()
+
+    if args.slug:
+        for s in args.slug:
+            get_LeetCode_question(s, args.en)
 
     if args.get:
         ql = get_LeetCode_List(args.en)
-    else:
+    elif args.t:
         ql = get_question_list(args.en)
-    
 
-    id2slug = {id: slug for id, title, level, slug in ql}
+        id2slug = {id: slug for id, title, level, slug in ql}
 
-    for t in args.t:
-        get_LeetCode_question(id2slug[t], args.en)
+        for t in args.t:
+            get_LeetCode_question(id2slug[t], args.en)
