@@ -216,6 +216,7 @@ def get_LeetCode_question(slug: str, en: bool):
         f.write("```Cpp\n// Code language: Cpp\n\n```\n\n")
         f.write("- 时间复杂度: $O(n)$\n")
         f.write("- 空间复杂度: $O(1)$\n")
+        f.write("---\n\n## 最后\n\n**如果对你有帮助的话，请给我点个赞吧**~\n\n欢迎前往[我的博客](https://meteordream.github.io/categories/LeetCode/)或 [Github](https://github.com/MeteorDream/Algorithm) 查看更多题解\n")
     return
 
 if __name__ == '__main__':
