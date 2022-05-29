@@ -5,3 +5,4 @@ Solution.py
 Solution.cpp
 Solution.java
 .clang-format
+__pycache__
