@@ -14,7 +14,7 @@ import json
 import time
 import argparse
 
-user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36"
+user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36"
 
 # Reference:
 # - https://gcyml.github.io/2019/03/03/Python%E7%88%AC%E5%8F%96Leetcode%E9%A2%98%E7%9B%AE%E5%8F%8AAC%E4%BB%A3%E7%A0%81/
@@ -140,19 +140,27 @@ def get_yaml_title(id, title):
     return "\n".join(ans)
 
 def get_problem_content(slug):
+    # 参考资料：https://juejin.cn/post/6844903735542431751
     # TODO: Default https://leetcode.cn not https://leetcode.com (english) because cn can also get english information
     url = "https://leetcode.cn/graphql"
-    params = {'operationName': "getQuestionDetail",
+    params = {'operationName': "questionData",
                 'variables': {'titleSlug': slug},
-                'query': '''query getQuestionDetail($titleSlug: String!) {
+                'query': '''query questionData($titleSlug: String!) {
             question(titleSlug: $titleSlug) {
-                title
-                translatedTitle
-                difficulty
                 questionId
-                translatedContent
+                questionFrontendId
+                categoryTitle
+                title
                 content
+                translatedTitle
+                translatedContent
+                difficulty
                 similarQuestions
+                topicTags {
+                    name
+                    slug
+                    translatedName
+                    }
             }
         }'''
     }
@@ -169,6 +177,21 @@ def get_problem_content(slug):
     # fh.writelines(convert(question['translatedContent']))
     # fh.close()
     return question
+    """
+    返回值示例：
+    {'questionId': '856',
+    'questionFrontendId': '829',  <- 这个才是显示的题号
+    'categoryTitle': 'Algorithms',
+    'boundTopicId': 1860,
+    'title': 'Consecutive Numbers Sum',
+    'content': '......',
+    'translatedTitle': '连续整数求和',
+    'translatedContent': '......',
+    'difficulty': 'Hard',
+    'similarQuestions': '[]',
+    'topicTags': [  {'name': 'Math', 'slug': 'math', 'translatedName': '数学'},
+                    {'name': 'Enumeration', 'slug': 'enumeration', 'translatedName': '枚举'}],
+    """
 
 def get_LeetCode_List(en=False):
     """ If en is True, get English else get Chinese """
@@ -193,21 +216,26 @@ def get_LeetCode_question(slug: str, en: bool):
     difficulty = content['difficulty']
     if not en:
         difficulty = '简单' if difficulty == 'Easy' else '困难' if difficulty == 'Hard' else '中等'
-    id = content['questionId']
+    id = content['questionFrontendId']      # <- 这个才是显示的 id 这个不知道是什么id -> content['questionId']
     info = content['content'] if en else content['translatedContent']
     ques_info = convert(info)
     similarQuestions = conv_sq(content['similarQuestions'], en)
-    md_title = f'{id} {title}({difficulty}).md'
+    tag = ", ".join((d['name'] if en else d['translatedName']) for d in content['topicTags'])
+    md_title = f'{id}_{title}({difficulty}).md'
     with open(md_title, 'wt', encoding='utf-8') as f:
         f.write(get_yaml_title(id, title))
         f.write("## 题目\n\n")
         f.write("[{}. {}]({})\n\n".format(id, title, url + slug + '/'))
         f.write("<!--more-->\n\n")
         f.write(ques_info)
-        f.write("\n")
-        f.write("## 相似题目\n\n")
-        f.write(similarQuestions)
-        f.write("\n\n")
+        # f.write("\n")
+        f.write("## 标签\n\n")
+        f.write(tag)
+        f.write('\n\n')
+        if similarQuestions:
+            f.write("## 相似题目\n\n")
+            f.write(similarQuestions)
+            f.write("\n\n")
         f.write("---\n\n")
         f.write("## 题解\n\n")
         f.write("[【{}】]()\n\n".format(title))
@@ -216,13 +244,13 @@ def get_LeetCode_question(slug: str, en: bool):
         f.write("```Cpp\n// Code language: Cpp\n\n```\n\n")
         f.write("- 时间复杂度: $O(n)$\n")
         f.write("- 空间复杂度: $O(1)$\n")
-        f.write("\n---\n\n## 最后\n\n**如果对你有帮助的话，请给我点个赞吧**~\n\n欢迎前往 [我的博客](https://meteordream.github.io/categories/LeetCode/)或 [Github](https://github.com/MeteorDream/Algorithm) 查看更多题解\n")
+        f.write("\n---\n\n## 最后\n\n**如果对你有帮助的话，请给我点个赞吧**~\n\n欢迎前往 [我的博客](https://meteordream.github.io/categories/LeetCode/) 或 [Algorithm - Github](https://github.com/MeteorDream/Algorithm) 查看更多题解\n")
     return
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Get LeetCode question list or get question information to markdown file.")
-    parser.add_argument('-g', '--get', action='store_true', help='Add the argument mean get LeetCode list.')
-    parser.add_argument('-e', '--en', action='store_true', help="Add the argument mean get information from english web.")
+    parser.add_argument('-g', '--get', action='store_true', help='Add the argument that get LeetCode list.')
+    parser.add_argument('-e', '--en', action='store_true', help="Add the argument that get information from english web.")
     parser.add_argument('-t', type=int, default=[], nargs='+', help="The number of questions you want to get (Can more than one, split by space).")
     parser.add_argument('-s', '--slug', type=str, default=[], nargs='+', help="Slug for question you want to get.")
     args = parser.parse_args()
