@@ -277,8 +277,7 @@ from typing import List
 def matrix_mul(x: List[List[int]], y: List[List[int]], mod: int = 0) -> List[List[int]]:
     """矩阵乘法"""
     n1, n2, m1, m2 = len(x), len(x[0]), len(y), len(y[0])
-    if n2 != m1:  # 无法做矩阵乘法
-        return False
+    assert n2 == m1, "维度不对应，无法做矩阵乘法"
     ans = []
     for i in range(n1):
         # row = [sum((x[i][k] * y[k][j] % mod) if mod else x[i][k] * y[k][j] for k in range(m1)) for j in range(m2)]
