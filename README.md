@@ -30,7 +30,7 @@
 
 - `ListNode.py`: LeetCode 中常用的链表结点，添加了格式化输出和方便创建链表的函数（注意不要格式化循环链表，会死循环）
 - `TreeNode.py`: LeetCode 中常用的二叉树结点，添加了方便根据测试用例创建二叉树的功能以及遍历输出的功能
-- `GetLeetCodeTitle.py`: 用于方便的爬取 LeetCode 题目内容并保存为 Markdown 文件的格式, 具体使用方法可以运行 `python GetLeetCodeTitle.py -h` 查看, 注意，近期发现有些题号和 LeetCode 上的题号不太对应（根据是中英文题目数量不完全对应的问题），所以增加了根据 slug 爬取题目的功能（所谓slug即题目链接最后一部分的英文字符串）
+- `GetLeetCodeTitle.py`: 用于方便的爬取 LeetCode 题目内容并保存为 Markdown 文件的格式, 具体使用方法可以运行 `python GetLeetCodeTitle.py -h` 查看, ~~注意，近期发现有些题号和 LeetCode 上的题号不太对应（根据是中英文题目数量不完全对应的问题），所以增加了根据 slug 爬取题目的功能（所谓slug即题目链接最后一部分的英文字符串）~~(该bug已经修复，根据 slug 爬取题目不会题号不对应，但直接根据题号得不到想要的题目，根本原因是 LeetCode 中 `questionId` 和显示的题号 `questionFrontendId` 不完全相同)
 
 ---
 
