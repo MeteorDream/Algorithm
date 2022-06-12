@@ -4,5 +4,6 @@ PythonTest.py
 Solution.py
 Solution.cpp
 Solution.java
+Solution.js
 .clang-format
 __pycache__
