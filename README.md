@@ -10,6 +10,8 @@
 
 [小鲸鱼的梦境](https://meteordream.github.io/) 中关于 LeetCode 题解部分: <https://meteordream.github.io/categories/LeetCode/>, 如果想按算法类型查找可以在 [标签云](https://meteordream.github.io/tags/) 中查看或者直接搜索哦~
 
+博客一般更新比较频繁一些，该算法库可能会有一些延后，所以建议在我的博客中查看题解哦~
+
 推荐一个包罗万象的算法干货库：<https://oiwiki.com/>.
 
 最新说明：会逐步把 LeetCode 发布过的题解更新过来哒, wiki 部分慢慢施工, 公主号看心情吧 🤣
