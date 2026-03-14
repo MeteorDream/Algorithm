@@ -7,3 +7,5 @@ Solution.java
 Solution.js
 .clang-format
 __pycache__
+.vene
+.obsidian
